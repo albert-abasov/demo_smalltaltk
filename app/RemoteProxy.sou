@@ -73,7 +73,7 @@ RemoteProxy acts as a local stand-in for a remote object, intercepting messages 
 <!-- ====================================================== -->
 
 <methods>
-<class-id>RemoteProxy class</class-id> <category>instance creation</category>
+<class-id>RemoteProxy</class-id> <category>instance creation</category>
 
 <body package="RemoteProxyPkg" selector="proxyForHost:port:objectId:">proxyForHost: host port: port objectId: objId
 	^ self new initializeWithHost: host port: port objectId: objId

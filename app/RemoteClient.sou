@@ -44,7 +44,7 @@ RemoteClient demonstrates usage of the RemoteProxy class to perform simulated re
 <!-- ====================================================== -->
 
 <methods>
-<class-id>RemoteClient class</class-id> <category>examples</category>
+<class-id>RemoteClient</class-id> <category>examples</category>
 
 <body package="RemoteClientPkg" selector="main">main
 	"Demonstration using RemoteProxy to perform remote calls"
