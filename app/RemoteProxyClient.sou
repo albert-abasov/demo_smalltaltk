@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<st-source>
+  <package>
+    <name>RemoteExamples</name>
+  </package>
+
+  <class name="RemoteProxyClient" namespace="RemoteExamples">
+    <super>Object</super>
+    <instVars/>
+    <classVars/>
+    <classInstVars/>
+    <poolDictionaries/>
+    <categories>
+      <category>RemoteExamples</category>
+    </categories>
+  </class>
+
+  <classMethod>
+    <selector>runExample</selector>
+    <category>examples</category>
+    <source>
+runExample
+    | remoteCalc result |
+    remoteCalc := RemoteProxy proxyForHost: '192.168.1.10' port: 9000 objectId: 'CalculatorService'.
+    result := remoteCalc add: 5 to: 8.
+    Transcript show: 'Received from proxy: ', result; cr.
+    </source>
+  </classMethod>
+</st-source>
