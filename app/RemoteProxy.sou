@@ -1,58 +1,83 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
+
 <st-source>
-  <package>
-    <name>RemoteExamples</name>
-  </package>
+<time-stamp>From VisualWorks®, 7.4 of December 5, 2005 on October 14, 2025 at 4:10:00 pm</time-stamp>
+<!-- Package RemoteProxyPkg* -->
 
-  <class name="RemoteProxy" namespace="RemoteExamples">
-    <super>Object</super>
-    <instVars>
-      <var>remoteHost</var>
-      <var>remotePort</var>
-      <var>objectId</var>
-    </instVars>
-    <classVars/>
-    <classInstVars/>
-    <poolDictionaries/>
-    <categories>
-      <category>RemoteExamples</category>
-    </categories>
-  </class>
+<component-property>
+<name>RemoteProxyPkg</name>
+<type>package</type>
+<property>packageName</property>
+<value>'RemoteProxyPkg'</value>
+</component-property>
 
-  <method>
-    <selector>initializeWithHost:port:objectId:</selector>
-    <category>initialization</category>
-    <source>
-initializeWithHost: host port: port objectId: objId
-    remoteHost := host.
-    remotePort := port.
-    objectId := objId.
-    ^ self
-    </source>
-  </method>
+<!-- ====================================================== -->
+<!-- Class: RemoteProxy -->
+<!-- ====================================================== -->
 
-  <method>
-    <selector>doesNotUnderstand:</selector>
-    <category>message forwarding</category>
-    <source>
-doesNotUnderstand: aMessage
-    | simulatedResponse |
-    Transcript
-        show: '--- Proxy Intercept ---'; cr;
-        show: 'To host: ', remoteHost asString, ':', remotePort asString; cr;
-        show: 'Object ID: ', objectId asString; cr;
-        show: 'Message: ', aMessage printString; cr.
-    simulatedResponse := 'Simulated remote result for: ', aMessage selector asString.
-    ^ simulatedResponse
-    </source>
-  </method>
+<class>
+<name>RemoteProxy</name>
+<environment>Smalltalk</environment>
+<super>Core.Object</super>
+<private>false</private>
+<indexed-type>none</indexed-type>
+<inst-vars>remoteHost remotePort objectId </inst-vars>
+<class-inst-vars></class-inst-vars>
+<imports></imports>
+<category>RemoteProxyPkg</category>
+<attributes>
+<package>RemoteProxyPkg</package>
+</attributes>
+</class>
 
-  <classMethod>
-    <selector>proxyForHost:port:objectId:</selector>
-    <category>instance creation</category>
-    <source>
-proxyForHost: host port: port objectId: objId
-    ^ self new initializeWithHost: host port: port objectId: objId
-    </source>
-  </classMethod>
+<comment>
+<class-id>RemoteProxy</class-id>
+<body>
+RemoteProxy acts as a local stand-in for a remote object, intercepting messages and simulating remote invocation.
+</body>
+</comment>
+
+<!-- ====================================================== -->
+<!-- Instance-side methods -->
+<!-- ====================================================== -->
+
+<methods>
+<class-id>RemoteProxy</class-id> <category>initialization</category>
+
+<body package="RemoteProxyPkg" selector="initializeWithHost:port:objectId:">initializeWithHost: host port: port objectId: objId
+	remoteHost := host.
+	remotePort := port.
+	objectId := objId.
+	^ self
+</body>
+</methods>
+
+<methods>
+<class-id>RemoteProxy</class-id> <category>message forwarding</category>
+
+<body package="RemoteProxyPkg" selector="doesNotUnderstand:">doesNotUnderstand: aMessage
+	| simulatedResponse |
+	Transcript
+		cr;
+		show: '--- Proxy Intercept ---'; cr;
+		show: 'Host: ', remoteHost asString, ' Port: ', remotePort asString; cr;
+		show: 'Object ID: ', objectId asString; cr;
+		show: 'Message: ', aMessage printString; cr.
+	simulatedResponse := 'Simulated remote result for: ', aMessage selector asString.
+	^ simulatedResponse
+</body>
+</methods>
+
+<!-- ====================================================== -->
+<!-- Class-side methods -->
+<!-- ====================================================== -->
+
+<methods>
+<class-id>RemoteProxy class</class-id> <category>instance creation</category>
+
+<body package="RemoteProxyPkg" selector="proxyForHost:port:objectId:">proxyForHost: host port: port objectId: objId
+	^ self new initializeWithHost: host port: port objectId: objId
+</body>
+</methods>
+
 </st-source>
