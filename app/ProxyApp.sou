@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<st-source>
+<time-stamp>From VisualWorks®, 7.4 of December 5, 2005 on October 10, 2025 at 2:06:00 pm</time-stamp>
+<!-- Package ProxyApp* -->
+
+<component-property>
+<name>ProxyApp</name>
+<type>package</type>
+<property>packageName</property>
+<value>'ProxyApp'</value>
+</component-property>
+
+<!-- ====================================================== -->
+<!-- Class: ProxyDemo -->
+<!-- ====================================================== -->
+
+<class>
+<name>ProxyDemo</name>
+<environment>Smalltalk</environment>
+<super>Core.Object</super>
+<private>false</private>
+<indexed-type>none</indexed-type>
+<inst-vars>proxy</inst-vars>
+<class-inst-vars></class-inst-vars>
+<imports>
+<import>ProxyCore</import>
+</imports>
+<category>ProxyApp</category>
+<attributes>
+<package>ProxyApp</package>
+</attributes>
+</class>
+
+<comment>
+<class-id>ProxyDemo</class-id>
+<body>
+ProxyDemo demonstrates how HeavyResourceProxy uses doesNotUnderstand:
+to transparently forward calls to HeavyResource.
+</body>
+</comment>
+
+<methods>
+<class-id>ProxyDemo</class-id> <category>initialization</category>
+
+<body package="ProxyApp" selector="initialize">initialize
+	super initialize.
+	proxy := HeavyResourceProxy new.</body>
+</methods>
+
+<methods>
+<class-id>ProxyDemo</class-id> <category>running</category>
+
+<body package="ProxyApp" selector="runDemo">runDemo
+	| before after result |
+	before := proxy isLoaded.
+	result := proxy compute.  "Forwarded via doesNotUnderstand:"
+	after := proxy isLoaded.
+	^String streamContents: [:s |
+		s
+			nextPutAll: 'Before compute, loaded? '; nextPutAll: before printString; cr;
+			nextPutAll: result; cr;
+			nextPutAll: 'After compute, loaded? '; nextPutAll: after printString ]</body>
+</methods>
+
+</st-source>

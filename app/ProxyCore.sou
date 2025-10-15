@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+
+<st-source>
+<time-stamp>From VisualWorks®, 7.4 of December 5, 2005 on October 10, 2025 at 2:05:00 pm</time-stamp>
+<!-- Package ProxyCore* -->
+
+<component-property>
+<name>ProxyCore</name>
+<type>package</type>
+<property>packageName</property>
+<value>'ProxyCore'</value>
+</component-property>
+
+<!-- ====================================================== -->
+<!-- Class: HeavyResource -->
+<!-- ====================================================== -->
+
+<class>
+<name>HeavyResource</name>
+<environment>Smalltalk</environment>
+<super>Core.Object</super>
+<private>false</private>
+<indexed-type>none</indexed-type>
+<inst-vars>data loaded</inst-vars>
+<class-inst-vars></class-inst-vars>
+<imports></imports>
+<category>ProxyCore</category>
+<attributes>
+<package>ProxyCore</package>
+</attributes>
+</class>
+
+<comment>
+<class-id>HeavyResource</class-id>
+<body>
+HeavyResource simulates an expensive-to-create object.
+It "loads" data only when requested.
+</body>
+</comment>
+
+<methods>
+<class-id>HeavyResource</class-id> <category>initialization</category>
+
+<body package="ProxyCore" selector="initialize">initialize
+	super initialize.
+	loaded := false.
+	data := nil.</body>
+</methods>
+
+<methods>
+<class-id>HeavyResource</class-id> <category>private</category>
+
+<body package="ProxyCore" selector="loadData">loadData
+	"Simulate an expensive load"
+	data := 'Some large/expensive resource contents'.
+	loaded := true.</body>
+</methods>
+
+<methods>
+<class-id>HeavyResource</class-id> <category>querying</category>
+
+<body package="ProxyCore" selector="isLoaded">isLoaded
+	^loaded</body>
+
+<body package="ProxyCore" selector="compute">compute
+	loaded ifFalse: [ self loadData ].
+	^'Computed result length: ', data size printString</body>
+</methods>
+
+<!-- ====================================================== -->
+<!-- Class: HeavyResourceProxy -->
+<!-- ====================================================== -->
+
+<class>
+<name>HeavyResourceProxy</name>
+<environment>Smalltalk</environment>
+<super>Core.Object</super>
+<private>false</private>
+<indexed-type>none</indexed-type>
+<inst-vars>realResource</inst-vars>
+<class-inst-vars></class-inst-vars>
+<imports></imports>
+<category>ProxyCore</category>
+<attributes>
+<package>ProxyCore</package>
+</attributes>
+</class>
+
+<comment>
+<class-id>HeavyResourceProxy</class-id>
+<body>
+HeavyResourceProxy lazily creates HeavyResource and forwards all unknown
+messages to it using doesNotUnderstand:. This avoids loading until first use.
+</body>
+</comment>
+
+<methods>
+<class-id>HeavyResourceProxy</class-id> <category>initialization</category>
+
+<body package="ProxyCore" selector="initialize">initialize
+	super initialize.
+	realResource := nil.</body>
+</methods>
+
+<methods>
+<class-id>HeavyResourceProxy</class-id> <category>private</category>
+
+<body package="ProxyCore" selector="realResource">realResource
+	realResource isNil ifTrue: [ realResource := HeavyResource new ].
+	^realResource</body>
+</methods>
+
+<methods>
+<class-id>HeavyResourceProxy</class-id> <category>forwarding</category>
+
+<body package="ProxyCore" selector="doesNotUnderstand:">doesNotUnderstand: aMessage
+	"Intercept unknown messages and forward to the real resource"
+	^aMessage sendTo: self realResource</body>
+</methods>
+
+</st-source>
