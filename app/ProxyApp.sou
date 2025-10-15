@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <st-source>
-<time-stamp>From VisualWorks®, 7.4 of December 5, 2005 on October 10, 2025 at 2:06:00 pm</time-stamp>
+<time-stamp>From VisualWorks®, 7.4 of December 5, 2005 on October 15, 2025 at 2:05:00 pm</time-stamp>
 <!-- Package ProxyApp* -->
 
 <component-property>
@@ -12,16 +12,16 @@
 </component-property>
 
 <!-- ====================================================== -->
-<!-- Class: ProxyDemo -->
+<!-- Class: ProxyClient -->
 <!-- ====================================================== -->
 
 <class>
-<name>ProxyDemo</name>
+<name>ProxyClient</name>
 <environment>Smalltalk</environment>
 <super>Core.Object</super>
 <private>false</private>
 <indexed-type>none</indexed-type>
-<inst-vars>proxy</inst-vars>
+<inst-vars></inst-vars>
 <class-inst-vars></class-inst-vars>
 <imports>
 <import>ProxyCore</import>
@@ -33,34 +33,16 @@
 </class>
 
 <comment>
-<class-id>ProxyDemo</class-id>
+<class-id>ProxyClient</class-id>
 <body>
-ProxyDemo demonstrates how HeavyResourceProxy uses doesNotUnderstand:
-to transparently forward calls to HeavyResource.
+ProxyClient demonstrates using a proxy without creating it directly.
 </body>
 </comment>
 
 <methods>
-<class-id>ProxyDemo</class-id> <category>initialization</category>
-
-<body package="ProxyApp" selector="initialize">initialize
-	super initialize.
-	proxy := HeavyResourceProxy new.</body>
-</methods>
-
-<methods>
-<class-id>ProxyDemo</class-id> <category>running</category>
-
-<body package="ProxyApp" selector="runDemo">runDemo
-	| before after result |
-	before := proxy isLoaded.
-	result := proxy compute.  "Forwarded via doesNotUnderstand:"
-	after := proxy isLoaded.
-	^String streamContents: [:s |
-		s
-			nextPutAll: 'Before compute, loaded? '; nextPutAll: before printString; cr;
-			nextPutAll: result; cr;
-			nextPutAll: 'After compute, loaded? '; nextPutAll: after printString ]</body>
+<class-id>ProxyClient</class-id>
+<category>demo</category>
+<body package="ProxyApp" selector="runDemo">| proxy result | proxy := ProxyRegistry resolve: 'HeavyResource'. result := proxy performTask. ^result</body>
 </methods>
 
 </st-source>

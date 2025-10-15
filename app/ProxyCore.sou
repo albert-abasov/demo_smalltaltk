@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <st-source>
-<time-stamp>From VisualWorks®, 7.4 of December 5, 2005 on October 10, 2025 at 2:05:00 pm</time-stamp>
+<time-stamp>From VisualWorks®, 7.4 of December 5, 2005 on October 15, 2025 at 2:00:00 pm</time-stamp>
 <!-- Package ProxyCore* -->
 
 <component-property>
@@ -21,7 +21,7 @@
 <super>Core.Object</super>
 <private>false</private>
 <indexed-type>none</indexed-type>
-<inst-vars>data loaded</inst-vars>
+<inst-vars></inst-vars>
 <class-inst-vars></class-inst-vars>
 <imports></imports>
 <category>ProxyCore</category>
@@ -33,38 +33,14 @@
 <comment>
 <class-id>HeavyResource</class-id>
 <body>
-HeavyResource simulates an expensive-to-create object.
-It "loads" data only when requested.
+HeavyResource simulates a heavy remote object that performs real work.
 </body>
 </comment>
 
 <methods>
-<class-id>HeavyResource</class-id> <category>initialization</category>
-
-<body package="ProxyCore" selector="initialize">initialize
-	super initialize.
-	loaded := false.
-	data := nil.</body>
-</methods>
-
-<methods>
-<class-id>HeavyResource</class-id> <category>private</category>
-
-<body package="ProxyCore" selector="loadData">loadData
-	"Simulate an expensive load"
-	data := 'Some large/expensive resource contents'.
-	loaded := true.</body>
-</methods>
-
-<methods>
-<class-id>HeavyResource</class-id> <category>querying</category>
-
-<body package="ProxyCore" selector="isLoaded">isLoaded
-	^loaded</body>
-
-<body package="ProxyCore" selector="compute">compute
-	loaded ifFalse: [ self loadData ].
-	^'Computed result length: ', data size printString</body>
+<class-id>HeavyResource</class-id>
+<category>actions</category>
+<body package="ProxyCore" selector="performTask">^'HeavyResource performing heavy task...'</body>
 </methods>
 
 <!-- ====================================================== -->
@@ -77,7 +53,7 @@ It "loads" data only when requested.
 <super>Core.Object</super>
 <private>false</private>
 <indexed-type>none</indexed-type>
-<inst-vars>realResource</inst-vars>
+<inst-vars>remoteResource</inst-vars>
 <class-inst-vars></class-inst-vars>
 <imports></imports>
 <category>ProxyCore</category>
@@ -89,33 +65,52 @@ It "loads" data only when requested.
 <comment>
 <class-id>HeavyResourceProxy</class-id>
 <body>
-HeavyResourceProxy lazily creates HeavyResource and forwards all unknown
-messages to it using doesNotUnderstand:. This avoids loading until first use.
+Proxy that forwards messages to a simulated remote HeavyResource.
 </body>
 </comment>
 
 <methods>
-<class-id>HeavyResourceProxy</class-id> <category>initialization</category>
-
-<body package="ProxyCore" selector="initialize">initialize
-	super initialize.
-	realResource := nil.</body>
+<class-id>HeavyResourceProxy</class-id>
+<category>initialization</category>
+<body package="ProxyCore" selector="initialize">initialize super initialize. remoteResource := HeavyResource new</body>
 </methods>
 
 <methods>
-<class-id>HeavyResourceProxy</class-id> <category>private</category>
-
-<body package="ProxyCore" selector="realResource">realResource
-	realResource isNil ifTrue: [ realResource := HeavyResource new ].
-	^realResource</body>
+<class-id>HeavyResourceProxy</class-id>
+<category>forwarding</category>
+<body package="ProxyCore" selector="doesNotUnderstand:">doesNotUnderstand: aMessage ^aMessage sendTo: remoteResource</body>
 </methods>
 
-<methods>
-<class-id>HeavyResourceProxy</class-id> <category>forwarding</category>
+<!-- ====================================================== -->
+<!-- Class: ProxyRegistry -->
+<!-- ====================================================== -->
 
-<body package="ProxyCore" selector="doesNotUnderstand:">doesNotUnderstand: aMessage
-	"Intercept unknown messages and forward to the real resource"
-	^aMessage sendTo: self realResource</body>
+<class>
+<name>ProxyRegistry</name>
+<environment>Smalltalk</environment>
+<super>Core.Object</super>
+<private>false</private>
+<indexed-type>none</indexed-type>
+<inst-vars></inst-vars>
+<class-inst-vars></class-inst-vars>
+<imports></imports>
+<category>ProxyCore</category>
+<attributes>
+<package>ProxyCore</package>
+</attributes>
+</class>
+
+<comment>
+<class-id>ProxyRegistry</class-id>
+<body>
+Registry that returns a proxy to simulate a remote lookup (RPC-like call).
+</body>
+</comment>
+
+<methods>
+<class-id>ProxyRegistry</class-id>
+<category>class api</category>
+<body package="ProxyCore" selector="resolve:">resolve: aName ^HeavyResourceProxy new</body>
 </methods>
 
 </st-source>
