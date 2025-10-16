@@ -12,11 +12,11 @@
 </component-property>
 
 <!-- ====================================================== -->
-<!-- Class: HeavyResource -->
+<!-- Class: HeavyResource1 -->
 <!-- ====================================================== -->
 
 <class>
-<name>HeavyResource</name>
+<name>HeavyResource1</name>
 <environment>Smalltalk</environment>
 <super>Core.Object</super>
 <private>false</private>
@@ -31,29 +31,29 @@
 </class>
 
 <comment>
-<class-id>HeavyResource</class-id>
+<class-id>HeavyResource1</class-id>
 <body>
-HeavyResource simulates a heavy remote object that performs real work.
+HeavyResource1 simulates a heavy remote object that performs real work.
 </body>
 </comment>
 
 <methods>
-<class-id>HeavyResource</class-id>
+<class-id>HeavyResource1</class-id>
 <category>actions</category>
-<body package="ProxyCore" selector="performTask">^'HeavyResource performing heavy task...'</body>
+<body package="ProxyCore" selector="performTask">^'HeavyResource1 performing heavy task...'</body>
 </methods>
 
 <!-- ====================================================== -->
-<!-- Class: HeavyResourceProxy -->
+<!-- Class: HeavyResource2 -->
 <!-- ====================================================== -->
 
 <class>
-<name>HeavyResourceProxy</name>
+<name>HeavyResource2</name>
 <environment>Smalltalk</environment>
 <super>Core.Object</super>
 <private>false</private>
 <indexed-type>none</indexed-type>
-<inst-vars>remoteResource</inst-vars>
+<inst-vars></inst-vars>
 <class-inst-vars></class-inst-vars>
 <imports></imports>
 <category>ProxyCore</category>
@@ -63,22 +63,92 @@ HeavyResource simulates a heavy remote object that performs real work.
 </class>
 
 <comment>
-<class-id>HeavyResourceProxy</class-id>
+<class-id>HeavyResource2</class-id>
 <body>
-Proxy that forwards messages to a simulated remote HeavyResource.
+HeavyResource2 simulates a heavy remote object that performs real work.
 </body>
 </comment>
 
 <methods>
-<class-id>HeavyResourceProxy</class-id>
+<class-id>HeavyResource2</class-id>
+<category>actions</category>
+<body package="ProxyCore" selector="performTask">^'HeavyResource2 performing heavy task...'</body>
+</methods>
+
+<!-- ====================================================== -->
+<!-- Class: HeavyResourceProxy1 -->
+<!-- ====================================================== -->
+
+<class>
+<name>HeavyResourceProxy1</name>
+<environment>Smalltalk</environment>
+<super>Core.Object</super>
+<private>false</private>
+<indexed-type>none</indexed-type>
+<inst-vars>remoteResource1</inst-vars>
+<class-inst-vars></class-inst-vars>
+<imports></imports>
+<category>ProxyCore</category>
+<attributes>
+<package>ProxyCore</package>
+</attributes>
+</class>
+
+<comment>
+<class-id>HeavyResourceProxy1</class-id>
+<body>
+Proxy that forwards messages to a simulated remote HeavyResource1.
+</body>
+</comment>
+
+<methods>
+<class-id>HeavyResourceProxy1</class-id>
 <category>initialization</category>
-<body package="ProxyCore" selector="initialize">initialize super initialize. remoteResource := HeavyResource new</body>
+<body package="ProxyCore" selector="initialize">initialize super initialize. remoteResource1 := HeavyResource1 new</body>
 </methods>
 
 <methods>
-<class-id>HeavyResourceProxy</class-id>
+<class-id>HeavyResourceProxy1</class-id>
 <category>forwarding</category>
-<body package="ProxyCore" selector="doesNotUnderstand:">doesNotUnderstand: aMessage ^aMessage sendTo: remoteResource</body>
+<body package="ProxyCore" selector="doesNotUnderstand:">doesNotUnderstand: aMessage ^aMessage sendTo: remoteResource1</body>
+</methods>
+
+<!-- ====================================================== -->
+<!-- Class: HeavyResourceProxy2 -->
+<!-- ====================================================== -->
+
+<class>
+<name>HeavyResourceProxy2</name>
+<environment>Smalltalk</environment>
+<super>Core.Object</super>
+<private>false</private>
+<indexed-type>none</indexed-type>
+<inst-vars>remoteResource2</inst-vars>
+<class-inst-vars></class-inst-vars>
+<imports></imports>
+<category>ProxyCore</category>
+<attributes>
+<package>ProxyCore</package>
+</attributes>
+</class>
+
+<comment>
+<class-id>HeavyResourceProxy2</class-id>
+<body>
+Proxy that forwards messages to a simulated remote HeavyResource2.
+</body>
+</comment>
+
+<methods>
+<class-id>HeavyResourceProxy2</class-id>
+<category>initialization</category>
+<body package="ProxyCore" selector="initialize">initialize super initialize. remoteResource2 := HeavyResource2 new</body>
+</methods>
+
+<methods>
+<class-id>HeavyResourceProxy2</class-id>
+<category>forwarding</category>
+<body package="ProxyCore" selector="doesNotUnderstand:">doesNotUnderstand: aMessage ^aMessage sendTo: remoteResource2</body>
 </methods>
 
 <!-- ====================================================== -->
