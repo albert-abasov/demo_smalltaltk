@@ -45,4 +45,79 @@ ProxyClient demonstrates using a proxy without creating it directly.
 <body package="ProxyApp" selector="runDemo">| proxy result | proxy := ProxyRegistry resolve: 'HeavyResource'. result := proxy performTask. ^result</body>
 </methods>
 
+<class>
+<name>CTRemoteProxy</name>
+<environment>Smalltalk</environment>
+<super>CTROCProxy</super>
+<private>false</private>
+<indexed-type>none</indexed-type>
+<inst-vars>port valid id hops </inst-vars>
+<class-inst-vars></class-inst-vars>
+<imports></imports>
+<category>As yet unclassified</category>
+<attributes>
+<package>ProxyApp</package>
+</attributes>
+</class>
+
+<methods>
+<class-id>CTRemoteProxy</class-id>
+<body package="CTROCApp" selector="doesNotUnderstand:">doesNotUnderstand: aMessage
+"Packages aMessage and sends it to the real object for which we
+ are but a mere proxy."
+
+^valid
+    ifTrue: [ProxyMessage
+        send: aMessage
+        to: name
+        using: port]
+    ifFalse: [CTRemote invalidProxySignal raiseSignal: ' (#', name, ')']</body>
+
+<body package="CTROCApp" selector="doesNotUnderstand:priority:">doesNotUnderstand: aMessage priority: aPriority
+"Packages aMessage and sends it to the real object for which we
+ are but a mere proxy.
+ dullnch 9–19–2018: PrioritizedProxyMessage should execute at aPriority when being evaluated by the receiver, hence we explicitely set processPriority"
+
+^valid
+    ifTrue: [PrioritizedProxyMessage
+        send: aMessage
+        to: name
+        using: port
+        priority: aPriority
+        processPriority: aPriority]
+    ifFalse: [CTRemote invalidProxySignal raiseSignal: ' (#', name, ')'].</body>
+</methods>
+
+<class>
+<name>Navigator</name>
+<environment>Smalltalk</environment>
+<super>UI.ApplicationModel</super>
+<private>false</private>
+<indexed-type>none</indexed-type>
+<inst-vars>visit shell inspector inspectorClasses inspectorCache inspectorHolder</inst-vars>
+<class-inst-vars></class-inst-vars>
+<imports></imports>
+<category>Tools-Trippy</category>
+<attributes>
+<package>ProxyApp</package>
+</attributes>
+</class>
+
+<methods>
+<class-id>Navigator</class-id>
+<category>accessing</category>
+<body package="Tools-Trippy" selector="initialize:shell:inspector:">initialize: aVisit shell: aShell inspector: anInspector
+
+    visit := aVisit.
+    shell := aShell.
+    inspector := anInspector.
+    inspector container: self.
+    self inspectorHolder selectionIndexHolder
+        onChangeSend: #inspectorSelectionChanged
+        to: self.
+    self refreshInspectorClasses</body>
+
+<body package="Tools-Trippy" selector="installedWith:">installedWith: aBuilder</body>
+</methods>
+
 </st-source>
